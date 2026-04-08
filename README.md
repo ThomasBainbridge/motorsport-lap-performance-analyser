@@ -44,16 +44,11 @@ MLPA is designed to analyse two laps from the same session and quantify where ti
     │     ├─ plotting.py
     │     ├─ reporting.py
     │     └─ utils.py
-    ├─ tests/
-    │  ├─ test_alignment.py
-    │  ├─ test_features.py
-    │  ├─ test_filtering.py
-    │  └─ test_segmentation.py
-    ├─ outputs/
-    │  ├─ figures/
-    │  ├─ tables/
-    │  └─ reports/
-    └─ cache/
+    └─ tests/
+    ├─ test_alignment.py
+    ├─ test_features.py
+    ├─ test_filtering.py
+    └─ test_segmentation.py
 
 ## Installation
 
