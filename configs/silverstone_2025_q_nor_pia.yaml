@@ -3,13 +3,13 @@ analysis:
 
 session:
   year: 2025
-  grand_prix: Monza
+  grand_prix: Silverstone
   session: Q
 
 drivers:
-  reference: VER
-  comparison: LEC
-  single: VER
+  reference: NOR
+  comparison: PIA
+  single: NOR
 
 lap_selection:
   mode: fastest
@@ -33,7 +33,7 @@ segmentation:
 
 ml:
   enabled: true
-  training_drivers: [VER, LEC, NOR, PIA]
+  training_drivers: [NOR, PIA, VER, LEC, RUS]
   top_n_laps_per_driver: 8
   n_clusters: 4
   random_state: 42
@@ -43,4 +43,4 @@ ml:
 
 paths:
   cache_dir: cache
-  outputs_dir: outputs/compare_laps/monza_2025_q_ver_lec
+  outputs_dir: outputs/compare_laps/silverstone_2025_q_nor_pia

@@ -1,5 +1,5 @@
 analysis:
-  mode: compare_laps
+  mode: single_lap
 
 session:
   year: 2025
@@ -7,8 +7,6 @@ session:
   session: Q
 
 drivers:
-  reference: VER
-  comparison: LEC
   single: VER
 
 lap_selection:
@@ -29,18 +27,19 @@ segmentation:
   throttle_pickup_threshold: 90.0
   low_throttle_threshold: 15.0
   exit_search_window_m: 180.0
-  segment_labels: {}
+  segment_labels:
+    1: "First chicane"
+    2: "Roggia"
+    3: "Lesmo 1"
+    4: "Lesmo 2"
+    5: "Ascari"
+    6: "Parabolica"
 
 ml:
   enabled: true
-  training_drivers: [VER, LEC, NOR, PIA]
-  top_n_laps_per_driver: 8
   n_clusters: 4
   random_state: 42
-  cv_folds: 5
-  test_size: 0.30
-  regression_models: [ridge, random_forest, gradient_boosting]
 
 paths:
   cache_dir: cache
-  outputs_dir: outputs/compare_laps/monza_2025_q_ver_lec
+  outputs_dir: outputs/single_lap/monza_2025_q_ver
