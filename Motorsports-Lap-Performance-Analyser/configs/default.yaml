@@ -1,0 +1,39 @@
+session:
+  year: 2025
+  grand_prix: Monza
+  session: Q
+
+drivers:
+  reference: VER
+  comparison: LEC
+
+lap_selection:
+  mode: fastest
+  only_by_time: false
+  require_accuracy: true
+  exclude_deleted: true
+  exclude_generated: true
+  quicklaps: true
+  green_flag_only: true
+
+alignment:
+  distance_step_m: 5.0
+
+segmentation:
+  min_braking_zone_length_m: 35.0
+  apex_search_lookahead_m: 140.0
+  throttle_pickup_threshold: 90.0
+  low_throttle_threshold: 15.0
+  exit_search_window_m: 180.0
+  segment_labels: {}
+
+ml:
+  enabled: true
+  training_drivers: [VER, LEC]
+  top_n_laps_per_driver: 8
+  n_clusters: 3
+  random_state: 42
+
+paths:
+  cache_dir: cache
+  outputs_dir: outputs
