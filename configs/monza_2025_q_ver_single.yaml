@@ -43,3 +43,15 @@ ml:
 paths:
   cache_dir: cache
   outputs_dir: outputs/single_lap/monza_2025_q_ver
+
+envelope:
+  enabled: true
+  calibrate_from_reference: false
+  track_smoothing_window_m: 15.0
+  track_step_m: 2.0
+  mass_kg: 800
+  mu_lat: 1.70
+  mu_long: 1.80
+  cda_m2: 0.95
+  cla_m2: 3.20
+  p_max_w: 800000

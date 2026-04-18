@@ -33,3 +33,29 @@ def make_monotonic_time_seconds(telemetry: pd.DataFrame) -> np.ndarray:
         return time_seconds
     time_seconds = np.maximum.accumulate(time_seconds)
     return time_seconds
+
+
+def lap_to_merged_telemetry(lap) -> pd.DataFrame:
+    """Extract lap telemetry including X, Y position, on a common distance basis.
+
+    FastF1's `get_telemetry()` merges car channels with position data and
+    resamples; `get_car_data()` used elsewhere in this package does not
+    carry X/Y and is not suitable for vehicle-model analysis.
+    """
+    tel = lap.get_telemetry().copy()
+    tel = tel.sort_values("Distance").drop_duplicates(subset="Distance", keep="first")
+    tel = tel.reset_index(drop=True)
+
+    if "Throttle" in tel.columns:
+        throttle = tel["Throttle"].astype(float).replace(104.0, np.nan)
+        tel["Throttle"] = throttle.ffill().bfill().clip(0.0, 100.0)
+    if "Brake" in tel.columns:
+        tel["Brake"] = tel["Brake"].fillna(False).astype(int)
+
+    for col in ("Speed", "RPM", "nGear", "DRS", "Distance", "X", "Y", "Z"):
+        if col in tel.columns:
+            tel[col] = pd.to_numeric(tel[col], errors="coerce")
+
+    tel = tel.dropna(subset=["Distance", "Speed", "X", "Y"])
+    tel = tel[tel["Distance"].diff().fillna(0) >= 0].reset_index(drop=True)
+    return tel

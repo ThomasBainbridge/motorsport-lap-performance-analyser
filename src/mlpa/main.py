@@ -6,6 +6,7 @@ import pandas as pd
 
 from .alignment import align_telemetry_pair
 from .attribution import compute_segment_contributions, overall_summary, rank_segments
+from .envelope_pipeline import run_envelope_stage_compare, run_envelope_stage_single
 from .features import compute_segment_features
 from .filtering import select_driver_lap, select_training_laps
 from .io import load_config, load_session_from_config, prepare_output_dirs
@@ -162,8 +163,18 @@ def run_compare_laps(config: dict) -> None:
     plot_cluster_profiles(cluster_profiles_df, output_dirs["figures"] / "cluster_profiles.png")
     plot_feature_importance(regression_feature_importance_df, output_dirs["figures"] / "regression_feature_importance.png")
     plot_regression_parity(regression_predictions_df, output_dirs["figures"] / "regression_parity.png")
+
+    # Envelope stage (no-op if envelope.enabled is false in the config)
+    run_envelope_stage_compare(
+        config=config,
+        reference_lap=reference_lap,
+        comparison_lap=comparison_lap,
+        segments_df=segments_df,
+        output_dirs=output_dirs,
+    )
+
     write_summary_markdown(output_dirs["reports"] / "summary.md", config=config, reference_lap=reference_lap, comparison_lap=comparison_lap, overall_metrics=overall_metrics, segment_ranking_df=segment_ranking, contributions_df=contributions_df, regression_metrics=regression_metrics, feature_importance_df=regression_feature_importance_df, cluster_profiles_df=cluster_profiles_df)
-    print("MLPA Version 2.1 compare-laps run complete.")
+    print("MLPA Version 2.2 compare-laps run complete.")
     print(f"Tables:   {output_dirs['tables']}")
     print(f"Figures:  {output_dirs['figures']}")
     print(f"Reports:  {output_dirs['reports']}")
@@ -204,8 +215,17 @@ def run_single_lap(config: dict) -> None:
     plot_single_lap_segment_metrics(segment_features, output_dirs["figures"] / "segment_metrics.png")
     plot_cluster_map(clustered_df, output_dirs["figures"] / "cluster_map.png")
     plot_cluster_profiles(cluster_profiles_df, output_dirs["figures"] / "cluster_profiles.png")
+
+    # Envelope stage (no-op if envelope.enabled is false in the config)
+    run_envelope_stage_single(
+        config=config,
+        lap=lap,
+        segments_df=segments_df,
+        output_dirs=output_dirs,
+    )
+
     write_single_lap_summary_markdown(output_dirs["reports"] / "summary.md", config=config, lap=lap, overall_metrics=overall_metrics, segment_features_df=segment_features, cluster_profiles_df=cluster_profiles_df)
-    print("MLPA Version 2.1 single-lap run complete.")
+    print("MLPA Version 2.2 single-lap run complete.")
     print(f"Tables:   {output_dirs['tables']}")
     print(f"Figures:  {output_dirs['figures']}")
     print(f"Reports:  {output_dirs['reports']}")
